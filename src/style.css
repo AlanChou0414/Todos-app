@@ -1,0 +1,93 @@
+.container {
+  font-family: Segoe UI,Arial,sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin:0 auto;
+  max-width: 600px;
+}
+.inner {
+  padding: 8rem 10px 4rem;
+  width: 100%;
+}
+header {
+  padding: 20px 0px;
+  line-height: 1.5em;
+}
+.title {
+  font-size: 6rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  line-height: 1em;
+  text-transform: lowercase;
+  text-align: center;
+  color: rgb(236, 236, 236);
+}
+.form-container {
+  border-radius: 50px;
+  box-shadow: 0 1px 6px 0 rgb(0 0 0 / 38%);
+  display:flex;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.input-text {
+  border: none;
+  height: 45px;
+  outline: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 400;
+  padding-left: 10px;
+  padding-right: 5px;
+  width: 85%;
+  letter-spacing: 1px;
+}
+.input-submit {
+  border: none;
+  height: 45px;
+  outline: none;
+  background: transparent;
+  color: #5b5b5b;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 10px;
+  text-transform: capitalize;
+}
+.todo-item {
+  border-bottom: 1px solid #eaeaea;
+  font-size: 1.2rem;
+  list-style-type: none;
+  padding: 17px 0;
+}
+.todo-item-content {
+  border: 1px solid #dfdfdf;
+  padding: 10px;
+  width: 100%;
+}
+.todo-item-checkbox {
+  cursor: pointer;
+  margin-right: 15px;
+}
+.todo-item-button {
+  background: none;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  float: right;
+  font-size: 13px;
+  height: 50px;
+  margin: -10px 0 0 10px;
+  outline: none;
+  width: 50px;
+}
+.todo-item-content-done {
+  font-style: italic; 
+  color: rgb(89, 89, 89); 
+  opacity: 0.4; 
+  text-decoration: line-through;
+}
+span {
+  overflow-wrap: break-word;
+}
