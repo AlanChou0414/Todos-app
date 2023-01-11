@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import TodosItem from './components/TodosItem'
 import './style.css'
-import { AiFillDelete } from 'react-icons/ai'
 import { RiSendPlaneFill } from 'react-icons/ri'
 import { v4 as uuid } from 'uuid'
 
@@ -11,6 +10,7 @@ const Todo = () => {
     let localStorageData = localStorage.getItem('todoItem') || 0
     if (localStorageData) {
       localStorageData = JSON.parse(localStorageData)
+      console.log(localStorageData)
     }
     if (!localStorageData) {
       return []
@@ -25,31 +25,18 @@ const Todo = () => {
   const handleInputChange = (event) => {
     setInputValue(event.target.value)
   }
-  const handleTodoItem = (event) => {
+  const handleTodoItem = () => {
     if (inputValue === '') return ''
     setTodoItem([{
       id: uuid(Date()),
       state: false,
+      edit: false,
       content: inputValue
     }, ...todoItem])
     setInputValue('')
   }
-  const handelInputKeyDown = (event) => {
+  const handleInputEnter = (event) => {
     if (event.key === 'Enter') handleTodoItem()
-  }
-  const handleTodoState = (id) => {
-    setTodoItem(todoItem.map(item => {
-      if (item.id !== id) return item
-      return {
-        ...item,
-        state: !item.state
-      }
-    }))
-  }
-  const handleDeleteTodoItem = (id) => {
-    setTodoItem(todoItem.filter(item => {
-      return item.id !== id
-    }))
   }
 
   return (
@@ -68,7 +55,7 @@ const Todo = () => {
               value={inputValue}
               maxLength='30'
               onChange={handleInputChange}
-              onKeyDown={handelInputKeyDown}
+              onKeyDown={handleInputEnter}
             />
             <button
               className='input-submit'

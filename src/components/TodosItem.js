@@ -1,7 +1,10 @@
-import React from 'react'
-import { AiFillDelete } from 'react-icons/ai'
+// TODO: delete alert
+import React, { useState } from 'react'
+import { AiFillDelete, AiOutlineEdit } from 'react-icons/ai'
 
 const TodosItem = ({ todoItem, setTodoItem }) => {
+  const [editValue, setEditValue] = useState('')
+
   const handleTodoState = (id) => {
     setTodoItem(todoItem.map(item => {
       if (item.id !== id) return item
@@ -10,11 +13,33 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
         state: !item.state
       }
     }))
+    // console.log(todoItem)
   }
   const handleDeleteTodoItem = (id) => {
     setTodoItem(todoItem.filter(item => {
       return item.id !== id
     }))
+  }
+  const handleEditInputChange = (event) => {
+    setEditValue(event.target.value)
+  }
+  const handleEditTodoItem = (id) => {
+    setTodoItem(todoItem.map(item => {
+      if (item.state) return item
+      if (item.id !== id) {
+        return {
+          ...item,
+          edit: false,
+          content: item.content
+        }
+      }
+      return {
+        ...item,
+        edit: !item.edit,
+        content: editValue.length === 0 ? item.content : editValue
+      }
+    }))
+    setEditValue('')
   }
 
   return (
@@ -30,7 +55,7 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
                 <input
                   className='todo-item-checkbox'
                   type="checkbox"
-                  id={item.id}
+                  defaultChecked={item.state}
                   onClick={() => handleTodoState(item.id)}
                 />
                 <button
@@ -39,11 +64,26 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
                 >
                   <AiFillDelete color='#E84855' size={20} />
                 </button>
-                <span
-                  className={item.state ? 'todo-item-content-done' : ''}
+                <button
+                  className='todo-item-button'
+                  onClick={() => handleEditTodoItem(item.id)}
                 >
-                  {item.content}
-                </span>
+                  <AiOutlineEdit color='#87833b' size={20} />
+                </button>
+                {
+                  !item.edit
+                    ? <span className={item.state ? 'todo-item-content-done' : ''}>
+                      {item.content}
+                    </span>
+                    : <input
+                      type='text'
+                      maxLength='30'
+                      className='todo-item-edit'
+                      placeholder={item.content}
+                      onChange={handleEditInputChange}
+                      autoFocus
+                    />
+                }
               </div>
             </li>
           )

@@ -87,6 +87,18 @@ header {
   color: rgb(89, 89, 89); 
   opacity: 0.4; 
   text-decoration: line-through;
+  border: none;
+  font-size: 18px;
+}
+.todo-item-edit {
+  font-size: 16px;
+  overflow-wrap: break-word;
+  width: 60%;
+  border-radius: 50px;
+  letter-spacing: 1px;
+  border: .2px solid rgba(108, 108, 108, 0.56);
+  font-weight: 400;
+  padding: 5px 10px;
 }
 span {
   overflow-wrap: break-word;
