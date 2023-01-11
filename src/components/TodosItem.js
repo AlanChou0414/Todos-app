@@ -1,10 +1,10 @@
-// TODO: delete alert
 import React, { useState } from 'react'
 import { AiFillDelete, AiOutlineEdit } from 'react-icons/ai'
+import { MdOutlineDone } from 'react-icons/md'
 
 const TodosItem = ({ todoItem, setTodoItem }) => {
   const [editValue, setEditValue] = useState('')
-
+  const [isEditing, setIsEditing] = useState(false)
   const handleTodoState = (id) => {
     setTodoItem(todoItem.map(item => {
       if (item.id !== id) return item
@@ -13,35 +13,49 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
         state: !item.state
       }
     }))
-    // console.log(todoItem)
   }
-  const handleDeleteTodoItem = (id) => {
-    setTodoItem(todoItem.filter(item => {
-      return item.id !== id
-    }))
+  const handleDeleteTodoItem = (id, content) => {
+    if (confirm(`Are you sure you want to delete the todo : ${content} ?`)) {
+      setTodoItem(todoItem.filter(item => {
+        return item.id !== id
+      }))
+    }
   }
   const handleEditInputChange = (event) => {
     setEditValue(event.target.value)
   }
   const handleEditTodoItem = (id) => {
+    if (isEditing) {
+      return
+    }
+    setIsEditing(true)
     setTodoItem(todoItem.map(item => {
-      if (item.state) return item
       if (item.id !== id) {
         return {
           ...item,
-          edit: false,
-          content: item.content
+          edit: false
         }
       }
       return {
         ...item,
-        edit: !item.edit,
+        edit: true
+      }
+    }))
+  }
+  const handleCompletedEdit = (id) => {
+    setTodoItem(todoItem.map(item => {
+      if (item.id !== id) {
+        return item
+      }
+      return {
+        ...item,
+        edit: false,
         content: editValue.length === 0 ? item.content : editValue
       }
     }))
     setEditValue('')
+    setIsEditing(false)
   }
-
   return (
     <>
       {
@@ -60,29 +74,41 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
                 />
                 <button
                   className='todo-item-button'
-                  onClick={() => handleDeleteTodoItem(item.id)}
+                  onClick={() => handleDeleteTodoItem(item.id, item.content)}
                 >
                   <AiFillDelete color='#E84855' size={20} />
                 </button>
-                <button
-                  className='todo-item-button'
-                  onClick={() => handleEditTodoItem(item.id)}
-                >
-                  <AiOutlineEdit color='#87833b' size={20} />
-                </button>
                 {
                   !item.edit
-                    ? <span className={item.state ? 'todo-item-content-done' : ''}>
-                      {item.content}
-                    </span>
-                    : <input
-                      type='text'
-                      maxLength='30'
-                      className='todo-item-edit'
-                      placeholder={item.content}
-                      onChange={handleEditInputChange}
-                      autoFocus
-                    />
+                    ? <>
+                      <span className={item.state ? 'todo-item-content-done' : ''}>
+                        {item.content}
+                      </span>
+                      <button
+                        className='todo-item-button'
+                        onClick={() => handleEditTodoItem(item.id)}
+                      >
+                        <AiOutlineEdit color='#87833b' size={20} />
+                      </button>
+                    </>
+
+                    : <>
+                      <input
+                        type='text'
+                        maxLength='30'
+                        className='todo-item-edit'
+                        placeholder={item.content}
+                        onChange={handleEditInputChange}
+                        autoFocus
+                      />
+                      <button
+                        className='todo-item-button'
+                        onClick={() => handleCompletedEdit(item.id)}
+                      >
+                        <MdOutlineDone color='green' size={20} />
+                      </button>
+                    </>
+
                 }
               </div>
             </li>

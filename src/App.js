@@ -6,11 +6,11 @@ import { v4 as uuid } from 'uuid'
 
 const Todo = () => {
   const [inputValue, setInputValue] = useState('')
+  const [isComposing, setIsComposing] = useState(null)
   const [todoItem, setTodoItem] = useState(() => {
     let localStorageData = localStorage.getItem('todoItem') || 0
     if (localStorageData) {
       localStorageData = JSON.parse(localStorageData)
-      console.log(localStorageData)
     }
     if (!localStorageData) {
       return []
@@ -35,8 +35,21 @@ const Todo = () => {
     }, ...todoItem])
     setInputValue('')
   }
+  const handleCompositionStart = () => {
+    setIsComposing(true)
+  }
+  const handleCompositionEnd = (event) => {
+    setIsComposing(false)
+    if (event.target.value) {
+      handleTodoItem()
+      setInputValue('')
+    }
+  }
   const handleInputEnter = (event) => {
-    if (event.key === 'Enter') handleTodoItem()
+    if (event.key === 'Enter' && !isComposing) {
+      handleTodoItem()
+      setInputValue('')
+    }
   }
 
   return (
@@ -56,8 +69,11 @@ const Todo = () => {
               maxLength='30'
               onChange={handleInputChange}
               onKeyDown={handleInputEnter}
+              onCompositionStart={handleCompositionStart}
+              onCompositionEnd={handleCompositionEnd}
             />
             <button
+              type='submit'
               className='input-submit'
               onClick={handleTodoItem}
             >
