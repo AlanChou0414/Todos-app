@@ -54,6 +54,9 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
     setEditValue('')
     setIsEditing(false)
   }
+  const handelEditInputKeyDown = (event, id) => {
+    event.key === 'Enter' && handleCompletedEdit(id)
+  }
   return (
     <>
       {
@@ -102,6 +105,7 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
                         className='todo-item-edit'
                         placeholder={item.content}
                         onChange={handleEditInputChange}
+                        onKeyDown={(event) => handelEditInputKeyDown(event, item.id)}
                         autoFocus
                       />
                       <button
