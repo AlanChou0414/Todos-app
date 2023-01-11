@@ -2,7 +2,7 @@
 
 ## :star2: About the Project
 
-Create a todos app with "CRUD" functionality in React framework  <br>
+Create a todo list app with "CRUD" functionality in React framework  <br>
 
 ### :camera: Screenshots
 
