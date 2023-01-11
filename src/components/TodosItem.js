@@ -15,7 +15,7 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
     }))
   }
   const handleDeleteTodoItem = (id, content) => {
-    if (confirm(`Are you sure you want to delete the todo : ${content} ?`)) {
+    if (confirm(`Are you sure you want to delete the To-Do : ${content} ?`)) {
       setTodoItem(todoItem.filter(item => {
         return item.id !== id
       }))
