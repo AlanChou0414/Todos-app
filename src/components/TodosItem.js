@@ -25,9 +25,7 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
     setEditValue(event.target.value)
   }
   const handleEditTodoItem = (id) => {
-    if (isEditing) {
-      return
-    }
+    if (isEditing) return
     setIsEditing(true)
     setTodoItem(todoItem.map(item => {
       if (item.id !== id) {
@@ -69,7 +67,9 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
                 <input
                   className='todo-item-checkbox'
                   type="checkbox"
-                  defaultChecked={item.state}
+                  disabled={item.edit}
+                  checked={item.state}
+                  readOnly={true}
                   onClick={() => handleTodoState(item.id)}
                 />
                 <button
@@ -84,14 +84,17 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
                       <span className={item.state ? 'todo-item-content-done' : ''}>
                         {item.content}
                       </span>
-                      <button
-                        className='todo-item-button'
-                        onClick={() => handleEditTodoItem(item.id)}
-                      >
-                        <AiOutlineEdit color='#87833b' size={20} />
-                      </button>
+                      {
+                        !item.state
+                          ? <button
+                            className='todo-item-button'
+                            onClick={() => handleEditTodoItem(item.id, item.state)}
+                          >
+                            <AiOutlineEdit color='#87833b' size={20} />
+                          </button>
+                          : <></>
+                      }
                     </>
-
                     : <>
                       <input
                         type='text'
@@ -108,7 +111,6 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
                         <MdOutlineDone color='green' size={20} />
                       </button>
                     </>
-
                 }
               </div>
             </li>
