@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import { AiFillDelete, AiOutlineEdit } from 'react-icons/ai'
 import { MdOutlineDone } from 'react-icons/md'
 
+// Type
+import { TodoItemType } from '../type'
+
 const TodosItem = ({ todoItem, setTodoItem }) => {
-  const [editValue, setEditValue] = useState('')
-  const [isEditing, setIsEditing] = useState(false)
-  const handleTodoState = (id) => {
-    setTodoItem(todoItem.map(item => {
+  const [editValue, setEditValue] = useState<string>('')
+  const [isEditing, setIsEditing] = useState<boolean>(false)
+  const handleTodoState = (id: string | number) => {
+    setTodoItem(todoItem.map((item: TodoItemType) => {
       if (item.id !== id) return item
       return {
         ...item,
@@ -14,20 +17,20 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
       }
     }))
   }
-  const handleDeleteTodoItem = (id, content) => {
+  const handleDeleteTodoItem = (id: string | number, content: string) => {
     if (confirm(`Are you sure you want to delete the To-Do : ${content} ?`)) {
-      setTodoItem(todoItem.filter(item => {
+      setTodoItem(todoItem.filter((item: TodoItemType) => {
         return item.id !== id
       }))
     }
   }
-  const handleEditInputChange = (event) => {
+  const handleEditInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEditValue(event.target.value)
   }
-  const handleEditTodoItem = (id) => {
+  const handleEditTodoItem = (id: string | number) => {
     if (isEditing) return
     setIsEditing(true)
-    setTodoItem(todoItem.map(item => {
+    setTodoItem(todoItem.map((item: TodoItemType) => {
       if (item.id !== id) {
         return {
           ...item,
@@ -40,8 +43,8 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
       }
     }))
   }
-  const handleCompletedEdit = (id) => {
-    setTodoItem(todoItem.map(item => {
+  const handleCompletedEdit = (id: string | number) => {
+    setTodoItem(todoItem.map((item: TodoItemType) => {
       if (item.id !== id) {
         return item
       }
@@ -54,13 +57,13 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
     setEditValue('')
     setIsEditing(false)
   }
-  const handelEditInputKeyDown = (event, id) => {
+  const handelEditInputKeyDown = (event: React.KeyboardEvent, id: string | number) => {
     event.key === 'Enter' && handleCompletedEdit(id)
   }
   return (
     <>
       {
-        todoItem.map(item => {
+        todoItem.map((item: TodoItemType) => {
           return (
             <li
               className='todo-item'
@@ -91,7 +94,7 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
                         !item.state
                           ? <button
                             className='todo-item-button'
-                            onClick={() => handleEditTodoItem(item.id, item.state)}
+                            onClick={() => handleEditTodoItem(item.id)}
                           >
                             <AiOutlineEdit color='#87833b' size={20} />
                           </button>
@@ -101,7 +104,7 @@ const TodosItem = ({ todoItem, setTodoItem }) => {
                     : <>
                       <input
                         type='text'
-                        maxLength='30'
+                        maxLength={30}
                         className='todo-item-edit'
                         placeholder={item.content}
                         onChange={handleEditInputChange}

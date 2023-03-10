@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import TodosItem from './components/TodosItem'
+import TodosItem from './components/TodosItem.tsx'
 import './style.css'
 import { RiSendPlaneFill } from 'react-icons/ri'
 import { v4 as uuid } from 'uuid'
 
+// Type
+import { TodoItemType } from './type.js'
+
 const Todo = () => {
-  const [inputValue, setInputValue] = useState('')
-  const [isComposing, setIsComposing] = useState(null)
-  const [todoItem, setTodoItem] = useState(() => {
-    let localStorageData = localStorage.getItem('todoItem') || 0
-    if (localStorageData) {
-      localStorageData = JSON.parse(localStorageData)
-    }
+  const [inputValue, setInputValue] = useState<string>('')
+  const [isComposing, setIsComposing] = useState<boolean | null>(null)
+  const [todoItem, setTodoItem] = useState<TodoItemType[]>(() => {
+    const localStorageData = localStorage.getItem('todoItem')
     if (!localStorageData) {
       return []
     }
-    return localStorageData
+    return JSON.parse(localStorageData)
   })
 
   useEffect(() => {
     localStorage.setItem('todoItem', JSON.stringify(todoItem))
   }, [todoItem])
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
   }
   const handleTodoItem = () => {
@@ -38,14 +38,14 @@ const Todo = () => {
   const handleCompositionStart = () => {
     setIsComposing(true)
   }
-  const handleCompositionEnd = (event) => {
+  const handleCompositionEnd = (event: React.CompositionEvent | HTMLInputElement) => {
     setIsComposing(false)
-    if (event.target.value) {
+    if ((event as HTMLInputElement).value) {
       handleTodoItem()
       setInputValue('')
     }
   }
-  const handleInputEnter = (event) => {
+  const handleInputEnter = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter' && !isComposing) {
       handleTodoItem()
       setInputValue('')
@@ -66,7 +66,7 @@ const Todo = () => {
               name='title'
               placeholder='Add todo...'
               value={inputValue}
-              maxLength='30'
+              maxLength={30}
               onChange={handleInputChange}
               onKeyDown={handleInputEnter}
               onCompositionStart={handleCompositionStart}

@@ -19,6 +19,7 @@
     "no-unused-vars": "off",
     "no-console": "off",
     "react/prop-types": 0,
-    "array-callback-return": 0
+    "array-callback-return": 0,
+    "eol-last": "off"
   }
 }
